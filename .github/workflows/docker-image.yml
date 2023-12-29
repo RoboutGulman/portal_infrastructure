@@ -12,5 +12,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
-    - name: Start containers
-      run: docker-compose -f "docker/docker-compose.yml" up -d --build
+    - name: Build Docker image frontend
+      uses: docker/build-push-action@v5
+      with:
+        context: ./web/
+        tags: teamtells/frontend:latest
+        labels: deploy
+
+    - name: Build Docker image backend
+      uses: docker/build-push-action@v5
+      with:
+        context: ./backend/
+        tags: teamtells/backend:latest
+        labels: deploy
+
