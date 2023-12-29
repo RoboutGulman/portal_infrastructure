@@ -6,34 +6,9 @@ on:
 
 jobs:
   push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: Run Containers
     runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v3
+    steps:        
       
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: darkmoonli
-          password: dckr_pat_ZP4lcfewthZBGR9oUjgAOX-q6wM
-      
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: darkmoonli/meggatechinsider
-      
-      - name: Build and push Docker image frontend
-        uses: docker/build-push-action@v5
-        with:
-          context: ./web/
-          tags: darkmoonli/frontend:latest
-          labels: deploy
-
-      - name: Build and push Docker image backend
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend/
-          tags: darkmoonli/backend:latest
-          labels: deploy
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d --build
