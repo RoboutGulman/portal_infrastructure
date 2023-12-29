@@ -10,19 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:        
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v4
 
-    - name: Build Docker image frontend
-      uses: docker/build-push-action@v5
-      with:
-        context: ./web/
-        tags: teamtells/frontend:latest
-        labels: deploy
 
-    - name: Build Docker image backend
-      uses: docker/build-push-action@v5
+    - name: Checkout backend repo
+      uses: actions/checkout@v4
       with:
-        context: ./backend/
-        tags: teamtells/backend:latest
-        labels: deploy
+        repository: portal_infrastructure/backend
+        path: backend
+
+    - name: Checkout web repo
+      uses: actions/checkout@v4
+      with:
+        repository: portal_infrastructure/web
+        path: web
+        
+    - name: Start containers
+      run: docker-compose -f "docker/docker-compose.yml" up -d --build
 
