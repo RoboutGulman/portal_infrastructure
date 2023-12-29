@@ -11,4 +11,4 @@ jobs:
     steps:        
       
       - name: Start containers
-        run: docker-compose -f "docker/docker-compose.yml" up -d --build
+        run: docker-compose -f "/docker/docker-compose.yml" up -d --build
